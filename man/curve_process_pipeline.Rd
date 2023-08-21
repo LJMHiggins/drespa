@@ -7,6 +7,8 @@
 curve_process_pipeline(
   cell_line_col = NULL,
   drug_name_col = NULL,
+  dose_col = NULL,
+  resp_col = NULL,
   dr_dataset,
   n_cores = 4,
   output_fname = NULL
@@ -16,6 +18,10 @@ curve_process_pipeline(
 \item{cell_line_col}{Index for cell line column (if not named "CELL_LINE_NAME").}
 
 \item{drug_name_col}{Index for drug name column (if not named "DRUG_NAME").}
+
+\item{dose_col}{Index of dose/concentration column.}
+
+\item{resp_col}{Index of response column.}
 
 \item{dr_dataset}{Data frame with dose response data in long format (Column for
 cell line id, drug id, dose and % viability).}
@@ -31,5 +37,5 @@ Dataframe with curve metrics and DSS scores. Each row pertaining to a
 }
 \description{
 Wrapper function for large scale implementation of model fitting and
- curve assessment.
+curve assessment.
 }

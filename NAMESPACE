@@ -3,4 +3,5 @@
 export(curve_process_pipeline)
 export(fit_drc_model)
 export(plot_dr_curve)
+export(plot_random_drs)
 export(run_curve_assessment)

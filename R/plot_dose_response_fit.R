@@ -51,5 +51,7 @@ plot_dr_curve <- function(model,
                                   color = "blue", size=1)} +
     theme_bw()
 
-  print(plot)
+  return(plot)
 }
+
+

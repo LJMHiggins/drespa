@@ -2,7 +2,7 @@
 #' Parallel processing application of curve assessment function
 #'
 #' Wrapper function for large scale implementation of model fitting and
-#'  curve assessment.
+#' curve assessment.
 #'
 #' @param cell_line_col Index for cell line column (if not named "CELL_LINE_NAME").
 #' @param drug_name_col Index for drug name column (if not named "DRUG_NAME").
