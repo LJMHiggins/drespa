@@ -42,6 +42,10 @@ plot_random_drs <- function(cell_line_col = NULL,
       colnames(dr_dataset)[drug_name_col] <- "DRUG_NAME"
       colnames(dr_dataset)[dose_col] <- "DOSE"
       colnames(dr_dataset)[resp_col] <- "RESPONSE"
+      # Avoid issue with duplicate columns
+      dplyr::select(
+        dr_dataset,
+        c(CELL_LINE_NAME, DRUG_NAME, DOSE, RESPONSE)) -> dr_dataset
     }
   }
   ## Random df subset ##
