@@ -1,4 +1,3 @@
-
 #' Parallel processing application of curve assessment function
 #'
 #' Wrapper function for large scale implementation of model fitting and

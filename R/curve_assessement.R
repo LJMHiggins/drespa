@@ -1,4 +1,3 @@
-
 #' Curve assessment - QC metrics and DSS calculation
 #'
 #' Extract curve parameter estimates along with QC metrics including R2, RMSE
@@ -52,10 +51,7 @@ run_curve_assessment <- function(model,
 
     return(RMSE)
   }
-  #### IC50 calulcation
-  .calculate_ic50 <- function(model, df){
 
-  }
   #### Confidence interval for parameters
   .parameter.estimates <- function(model){
     # For a 4 param curve fit
@@ -73,7 +69,7 @@ run_curve_assessment <- function(model,
   #### Calculate DSS scores (1 - 3)
   .calculate.DSS <- function(model, df){
     data = data.frame(
-      ic50 = model$coefficients[[4]],
+      ic50 = model$coefficients[[4]], # Relative IC50 (or EC50)
       slope = model$coefficients[[1]],
       MIN_resp = min(df$RESPONSE),
       MAX_resp = max(df$RESPONSE),
