@@ -16,6 +16,3 @@ calculate_bliss <- function(dr_dataset,
   dr_dataset$bliss_independence <- bliss
   return(dr_dataset)
 }
-
-Mort_Bliss = (Death - (mean_Death.x + mean_Death.y - (mean_Death.x * mean_Death.y)))
-Fold_bliss = (Death - mean_fold.x + mean_fold.y - (mean_fold.x * mean_fold.y)))
