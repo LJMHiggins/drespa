@@ -79,7 +79,10 @@ curve_process_pipeline <- function(cell_line_col = NULL,
                                    resp_col = resp_col)
 
     if (!is.null(model)){
-      metrics <- drespa::run_curve_assessment(model = model, dr_data = df_sub)
+      metrics <- drespa::run_curve_assessment(model = model,
+                                              dr_data = df_sub,
+                                              dose_col = dose_col,
+                                              resp_col = resp_col)
       metrics$CELL_LINE_NAME <- grid_exec[i,1]
       metrics$DRUG_NAME <- grid_exec[i,2]
       metrics

@@ -76,6 +76,31 @@ run_curve_assessment <- function(model,
 
     return(gIC50)
   }
+  #### Calculate are above curve (AAC)
+  # Modification required with data selection and communication with curve_processing pipeline
+  .calculateAUC <- function(dr_data,
+                            dose_col,
+                            resp_col,
+                            aac = FALSE) {
+    x <- dr_data[[dose_col]]
+    y <- dr_data[[resp_col]]
+    if (length(x) != length(y)) {
+      print("Impute vectors must be of same length.")
+    }
+    idx <- order(x)
+    x <- x[idx]
+    y <- y[idx]
+    conc_diff <- diff(x)
+    areas <-  sum((rowMeans(cbind(y[-length(y)], y[-1]))) * conc_diff)
+    max_auc <- sum(100 * conc_diff)
+    normalized_auc <- areas / max_auc
+
+    if (aac){
+      return(1 - normalized_auc)
+    } else {
+      return(normalized_auc)
+    }
+  }
   #### Calculate DSS scores (1 - 3)
   .calculate.DSS <- function(model, df){
     data = data.frame(
@@ -102,10 +127,15 @@ run_curve_assessment <- function(model,
   r_sq <- .calculate.r.sq(model = model, df = dr_data)
   rmse <- .calculate.rmse(model = model, df = dr_data)
   gIC50 <- .calculate_gIC50(model = model)
+  aac <- .calculateAUC(dr_data = dr_data,
+                       dose_col = dose_col,
+                       resp_col = resp_col,
+                       aac = TRUE)
   metrics <- .parameter.estimates(model = model)
   metrics$r_squared <- r_sq
   metrics$rmse <- rmse
   metrics$gIC50 <- gIC50
+  metrics$AAC <- aac
 
   dss_scores <- .calculate.DSS(model = model, df = dr_data)
   # could insert calculation AAC here also
