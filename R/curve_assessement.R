@@ -4,7 +4,7 @@
 #'  and parameter confidence intervals extracted from drc model parameters. This
 #'  includes EC_50 (half of maximum inhibition - also known as relative IC50).
 #'  Additionally, Drug Sensitivity Scores are calculated (DSS1, DSS2 & DSS3). For this,
-#'  ensure data is % of viability (100% = DMSO control) on a scale of 0 - 100,
+#'  ensure data is percentage of viability (100 percent = DMSO control) on a scale of 0 - 100,
 #'  and that concentration is in uM and not in log10 scale as transformation is
 #'  applied within function.
 #'
@@ -12,7 +12,7 @@
 #' @param dr_data Dose response dataframe. If columns are not labelled "DOSE" and
 #'  "RESPONSE", indicate the indices of the relevant columns.
 #' @param dose_col Index of dose/concentration column.
-#' @param resp_col Index of response column. % Viability recommended.
+#' @param resp_col Index of response column. Percentage viability recommended.
 #'
 #' @return Dataframe with single row.
 #' @export
@@ -55,7 +55,7 @@ run_curve_assessment <- function(model,
   #### Confidence interval for parameters
   .parameter.estimates <- function(model){
     # For a 4 param curve fit
-    df <- broom::tidy(model, conf.int = TRUE)
+    df <- broom::tidy(model, conf.int = TRUE) #Extracts relative IC50 and other params in table format
     df$CI_range <- abs(df$conf.low - df$conf.high)
     ## Return as single row ##
     df.final <- df[-2]
@@ -65,6 +65,16 @@ run_curve_assessment <- function(model,
       pivot_wider(names_from = param_id, values_from = value) -> out
 
     return(out)
+  }
+  #### Calculate ABSOLUTE IC50 (also known as GIC50)
+  .calculate_gIC50 <- function(model){
+    concentrations <- exp(seq(log(min(model$data$DOSE)), log(max(model$data$DOSE)), length.out = 1000))
+    predicted_responses <- predict(model, newdata = data.frame(DOSE = concentrations))
+    # Get concentration where the predicted response is closest to 50%
+    index_closest_to_50 <- which.min(abs(predicted_responses - 50))
+    gIC50 <- concentrations[index_closest_to_50]
+
+    return(gIC50)
   }
   #### Calculate DSS scores (1 - 3)
   .calculate.DSS <- function(model, df){
@@ -91,12 +101,14 @@ run_curve_assessment <- function(model,
   #### Combine and return results from all sub functions
   r_sq <- .calculate.r.sq(model = model, df = dr_data)
   rmse <- .calculate.rmse(model = model, df = dr_data)
-  dss_scores <- .calculate.DSS(model = model, df = dr_data)
+  gIC50 <- .calculate_gIC50(model = model)
   metrics <- .parameter.estimates(model = model)
-
   metrics$r_squared <- r_sq
   metrics$rmse <- rmse
-  # could insert calculation here - either AAC or DSS
+  metrics$gIC50 <- gIC50
+
+  dss_scores <- .calculate.DSS(model = model, df = dr_data)
+  # could insert calculation AAC here also
   metrics <- cbind(metrics, dss_scores)
   return(metrics)
 }

@@ -5,7 +5,7 @@
 #' @param dr_data Dose response dataframe. If columns are not labelled "DOSE" and
 #'  "RESPONSE", indicate the indices of the relevant columns.
 #' @param dose_col Index of dose/concentration column.
-#' @param resp_col Index of response column. % Viability recommended.
+#' @param resp_col Index of response column. Percentage viability recommended.
 #' @param ic50 IC50 value for highlight on plot.
 #'
 #' @return Plot of dose response relationship.

@@ -15,27 +15,41 @@ curve_process_pipeline(
 )
 }
 \arguments{
-\item{cell_line_col}{Index for cell line column (if not named "CELL_LINE_NAME").}
+\item{cell_line_col}{Index for the cell line column (if not named "CELL_LINE_NAME").}
 
-\item{drug_name_col}{Index for drug name column (if not named "DRUG_NAME").}
+\item{drug_name_col}{Index for the drug name column (if not named "DRUG_NAME").}
 
-\item{dose_col}{Index of dose/concentration column.}
+\item{dose_col}{Index of the dose/concentration column.}
 
-\item{resp_col}{Index of response column.}
+\item{resp_col}{Index of the response column.}
 
-\item{dr_dataset}{Data frame with dose response data in long format (Column for
-cell line id, drug id, dose and % viability).}
+\item{dr_dataset}{Data frame with dose-response data in long format (Columns for
+cell line id, drug id, dose, and percentage viability).}
 
-\item{n_cores}{Number of CPU's to use.}
+\item{n_cores}{Number of CPUs to use.}
 
-\item{output_fname}{File name for csv file output. If NULL, file will not be
-saved in function.}
+\item{output_fname}{File name for CSV file output. If NULL, the file will not be
+saved by the function.}
 }
 \value{
-Dataframe with curve metrics and DSS scores. Each row pertaining to a
- single dose cuve (identified by cell line / drug id column in output).
+Data frame with curve metrics and DSS scores. Each row pertains to a
+  single dose curve (identified by cell line/drug id columns in the output).
 }
 \description{
-Wrapper function for large scale implementation of model fitting and
+Wrapper function for large-scale implementation of model fitting and
 curve assessment.
+}
+\examples{
+\dontrun{
+curve_process_pipeline(
+  cell_line_col = 1,
+  drug_name_col = 2,
+  dose_col = 3,
+  resp_col = 4,
+  dr_dataset = your_data_frame,
+  n_cores = 4,
+  output_fname = "output.csv"
+)
+}
+
 }

@@ -32,7 +32,7 @@ account for lack of convergence.}
 \item{report_title}{String to be used as pdf file name.}
 
 \item{dr_dataset}{Data frame with dose response data in long format (Column for
-cell line id, drug id, dose and % viability).}
+cell line id, drug id, dose and percentage viability).}
 }
 \description{
 Plot dose response curves from large dataset using random selection. Intended

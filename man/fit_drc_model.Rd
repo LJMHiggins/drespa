@@ -12,7 +12,7 @@ fit_drc_model(dr_data, dose_col = 1, resp_col = 2)
 
 \item{dose_col}{Index of dose/concentration column.}
 
-\item{resp_col}{Index of response column. % Viability recommended.}
+\item{resp_col}{Index of response column. Percentage viability recommended.}
 }
 \value{
 A 4-parameter drc model if convergence is achieved. Otherwise

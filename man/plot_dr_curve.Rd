@@ -14,7 +14,7 @@ plot_dr_curve(model, dr_data, dose_col = NULL, resp_col = NULL, ic50 = NULL)
 
 \item{dose_col}{Index of dose/concentration column.}
 
-\item{resp_col}{Index of response column. % Viability recommended.}
+\item{resp_col}{Index of response column. Percentage viability recommended.}
 
 \item{ic50}{IC50 value for highlight on plot.}
 }

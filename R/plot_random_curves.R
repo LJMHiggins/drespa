@@ -16,7 +16,7 @@
 #' @param save_pdf Logical value, determines whether to save output pdf.
 #' @param report_title String to be used as pdf file name.
 #' @param dr_dataset Data frame with dose response data in long format (Column for
-#'  cell line id, drug id, dose and % viability).
+#'  cell line id, drug id, dose and percentage viability).
 #'
 #' @return
 #' @export

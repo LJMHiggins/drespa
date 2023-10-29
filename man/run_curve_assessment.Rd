@@ -14,7 +14,7 @@ run_curve_assessment(model, dr_data, dose_col = NULL, resp_col = NULL)
 
 \item{dose_col}{Index of dose/concentration column.}
 
-\item{resp_col}{Index of response column. % Viability recommended.}
+\item{resp_col}{Index of response column. Percentage viability recommended.}
 }
 \value{
 Dataframe with single row.
@@ -24,7 +24,7 @@ Extract curve parameter estimates along with QC metrics including R2, RMSE
  and parameter confidence intervals extracted from drc model parameters. This
  includes EC_50 (half of maximum inhibition - also known as relative IC50).
  Additionally, Drug Sensitivity Scores are calculated (DSS1, DSS2 & DSS3). For this,
- ensure data is % of viability (100% = DMSO control) on a scale of 0 - 100,
+ ensure data is percentage of viability (100 percent = DMSO control) on a scale of 0 - 100,
  and that concentration is in uM and not in log10 scale as transformation is
  applied within function.
 }

@@ -1,11 +1,12 @@
 #' Fit dose response curve
 #'
+#' @description
 #' Function to fit 4 parameter dose response model.
 #'
 #' @param dr_data Dose response dataframe. If columns are not labelled "DOSE" and
 #'  "RESPONSE", indicate the indices of the relevant columns.
 #' @param dose_col Index of dose/concentration column.
-#' @param resp_col Index of response column. % Viability recommended.
+#' @param resp_col Index of response column. Percentage viability recommended.
 #'
 #' @return A 4-parameter drc model if convergence is achieved. Otherwise
 #'  returns NULL.
@@ -43,25 +44,35 @@ compute_abs_IC50 <- function(){
 
 }
 
-
-#' Calculate AUC
+#' @title Calculate AUC or AAC
 #'
-#' @param dr_data Dose response dataframe. If columns are not labelled "DOSE" and
-#'  "RESPONSE", indicate the indices of the relevant columns.
-#' @param dose_col Index of dose/concentration column.
-#' @param resp_col Index of response column. % Viability recommended.
-#' @param aac Boolean. Whether or not to return area above the dr curve.
+#' @description
+#' Calculate the Area Under the Curve (AUC) or the Area Above the Curve (AAC) for a dose-response curve.
 #'
-#' @return AUC or AAC.
-#' @export
+#' @param dr_data Dose-response dataframe. If columns are not labeled "DOSE" and "RESPONSE," indicate the indices of the relevant columns.
+#' @param dose_col Index of the dose/concentration column.
+#' @param resp_col Index of the response column, percentage viability recommended.
+#' @param aac Logical. Whether or not to return the Area Above the Dose-Response Curve (AAC).
+#'
+#' @return
+#' A numeric value representing the AUC or AAC.
 #'
 #' @examples
+#' \dontrun{
+#'   data <- data.frame(
+#'     DOSE = c(0, 1, 2, 3, 4),
+#'     RESPONSE = c(100, 90, 80, 70, 60)
+#'   )
+#'   computeAUC(data, dose_col = 1, resp_col = 2)
+#' }
+#'
+#' @export
 computeAUC <- function(dr_data,
-                    dose_col = 1,
-                    resp_col = 2,
-                    aac = FALSE) {
+                       dose_col = 1,
+                       resp_col = 2,
+                       aac = FALSE) {
 
-  curve_data <- data.frame(viab=dr_data[1], conc=dr_data[1],)
+  curve_data <- data.frame(viab=dr_data[resp_col], conc=dr_data[dose_col])
   sorted_curve <- curve_data[order(curve_data$conc),]
 
   viab_diff <- diff(sorted_data$viab)
@@ -78,7 +89,17 @@ computeAUC <- function(dr_data,
   }
 }
 
+#' Title
+#'
+#' @param model
+#' @param df
+#'
+#' @return
+#' @export
+#'
+#' @examples
 computeDSS <- function(model, df){
+  ## Needs adapting
   data = data.frame(
     ic50 = model$coefficients[[4]],
     slope = model$coefficients[[1]],
