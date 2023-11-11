@@ -67,20 +67,22 @@ compute_abs_IC50 <- function(){
 #' }
 #'
 #' @export
-computeAUC <- function(dr_data,
-                       dose_col = 1,
-                       resp_col = 2,
-                       aac = FALSE) {
-
-  curve_data <- data.frame(viab=dr_data[resp_col], conc=dr_data[dose_col])
-  sorted_curve <- curve_data[order(curve_data$conc),]
-
-  viab_diff <- diff(sorted_data$viab)
-  conc_diff <- diff(sorted_data$conc)
-
-  areas <- 0.5 * (viab_diff[1:(length(viab_diff) - 1)] + viab_diff[2:length(viab_diff)]) * conc_diff
-  area_total <- sum(areas)
-  normalized_auc <- area_total / log(sorted_data[nrow(sorted_data), ]$conc / sorted_data[1, ]$conc)
+calculateAUC <- function(dr_data,
+                         dose_col,
+                         resp_col,
+                         aac = FALSE) {
+  x <- dr_data[[dose_col]]
+  y <- dr_data[[resp_col]]
+  if (length(x) != length(y)) {
+    print("Impute vectors must be of same length.")
+  }
+  idx <- order(x)
+  x <- x[idx]
+  y <- y[idx]
+  conc_diff <- diff(x)
+  areas <-  sum((rowMeans(cbind(y[-length(y)], y[-1]))) * conc_diff)
+  max_auc <- sum(100 * conc_diff)
+  normalized_auc <- areas / max_auc
 
   if (aac){
     return(1 - normalized_auc)
@@ -89,7 +91,7 @@ computeAUC <- function(dr_data,
   }
 }
 
-#' Title
+#' Calculate Drug Sensitivity Scores including DSS1, DSS2 and DSS3
 #'
 #' @param model
 #' @param df
